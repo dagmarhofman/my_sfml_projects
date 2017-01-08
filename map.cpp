@@ -6,8 +6,10 @@
 
 */
 
+#include <sstream>
 #include <iostream>
 #include <vector>
+#include <cstring>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System/FileInputStream.hpp>
@@ -18,12 +20,21 @@
 #include "map.hpp"
 
 //common filenames
-const char* levelfile = "./level.dat";
+const char* levelfile = "./levels.dat";
 const char* chipfile = "./sprites/chips.png";
 
 // add more sprites in later version.
 const int max_sprites = 6;
 
+
+int game_map :: get_current_level ( void )
+{
+    return current_level;
+}
+int game_map :: get_sprite_ref (int x, int y )
+{
+    return sprite_map_ref[x][y];
+}
 
 sf::Sprite game_map :: get_sprite_by_num (int num)
 {
@@ -36,6 +47,11 @@ void game_map :: init()
     chip_sprites.reserve(6);
     set_map_file_name( sf::String(levelfile) );
     set_chip_texture_file_name( sf::String(chipfile) );
+
+    read_map_file();
+
+    switch_level( start_level );
+
     //create SFML specific stuff
     chip_sprite_texture = new sf::Texture;
 
@@ -45,6 +61,7 @@ void game_map :: init()
     } catch ( std::exception& e) {
         std::cout << "could not init sprites " << e.what() << "\n";
     }
+
 }
 
 void game_map :: set_map_file_name( sf::String arg )
@@ -65,7 +82,59 @@ bool game_map :: check_map_file ( void )
 
 void game_map :: read_map_file( void )
 {
+    int64_t my_map_size;
+    char *my_map_buffer;
 
+    sf::FileInputStream *my_map;
+    my_map = new sf::FileInputStream;
+    my_map->open( map_file_name );
+    my_map_size = my_map->getSize();
+    my_map_buffer = new char[my_map_size];
+    my_map->read((char *)my_map_buffer, my_map_size);
+
+    //scan the whole buffer.
+    map_file_buffer = my_map_buffer;
+
+    delete my_map;
+
+}
+
+/* this thing depends on a good data file. insane things may happen when the buffer is incorrect initialized */
+bool game_map :: switch_level( int level_num )
+{
+    int i,j;
+    int found_level;
+    bool flag = false;
+
+    std::string parsebuf = map_file_buffer.toAnsiString();
+    std::string line;
+    std::istringstream strstream(parsebuf);
+    std::stringstream line_stream;
+
+    while(!strstream.eof()) {
+        std::getline(strstream,line);
+        line_stream.str(line);
+        if( line.length() > 1 ) {
+            if( line.at(0) =='L' )
+                    std::sscanf( line.c_str(), "L%i\n", &found_level);
+            if( found_level == level_num ) {
+                for( i = 0; i < 9; i++) {
+                    std::getline(strstream,line);
+                    for(j=0;j<13;j++) {
+                        if( line.at(j) != '.' )
+                            sprite_map_ref[j][i] = line.at(j) - '0';
+                        else
+                            sprite_map_ref[j][i] = -1;
+                    }
+                }
+                flag = true;
+            }
+        }
+    }
+    if( flag )
+        current_level = level_num;
+
+    return flag;
 }
 
 int game_map :: init_chip_sprites( void )

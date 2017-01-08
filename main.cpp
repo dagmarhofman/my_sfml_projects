@@ -34,6 +34,8 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 iosilver->window->close();
+            if (event.type == sf::Event::KeyPressed)
+                iosilver->handle_key_event( event.key.code );
         }
 
         iosilver->window->clear();

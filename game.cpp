@@ -23,9 +23,42 @@ void game :: draw_sprite( sf::Sprite sprite, float x, float y )
 void game :: draw_map( void )
 {
     sf::Sprite sprite;
-    sprite = this->levels->get_sprite_by_num(4);
-    draw_sprite( sprite, 50,50);
+
+    int i,j;
+    int sprite_num;
+
+    for(i=0;i<13;i++) {
+        for(j=0;j<9;j++) {
+            sprite_num = levels->get_sprite_ref(i,j);
+            if( sprite_num != -1 ) {
+                sprite = levels->get_sprite_by_num(sprite_num);
+                draw_sprite( sprite, i * 60, j * 65);
+            }
+        }
+    }
 
     return;
+}
+
+void game :: level_up(void)
+{
+    if( levels->get_current_level() < amount_of_levels )
+        levels->switch_level(levels->get_current_level()+1);
+    return;
+}
+
+void game :: level_down(void)
+{
+    if( levels->get_current_level() > 0 )
+        levels->switch_level(levels->get_current_level()-1);
+    return;
+}
+
+void game :: handle_key_event( int key )
+{
+    if( key == 67 )
+        level_up();
+    if( key == 68)
+        level_down();
 }
 
