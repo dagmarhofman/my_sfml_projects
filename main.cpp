@@ -18,6 +18,7 @@
 #include <SFML/Graphics/Rect.hpp>
 
 
+//common filenames
 const char* levelfile = "./level.dat";
 const char* chipfile = "./sprites/chips.png";
 
@@ -42,6 +43,8 @@ class game
         };
 
         ~game() {
+
+            //destroy SFML specific stuff
             delete chip_sprite_texture;
             delete window;
         }
@@ -69,7 +72,6 @@ class game
 		sf::String map_file_name;
 		sf::String chip_texture_file_name;
 		std::vector<sf::Sprite> chip_sprites;
-
 
 };
 
@@ -108,7 +110,8 @@ void game :: read_map_file( void )
 void game :: draw_map( void )
 {
     sf::Sprite sprite;
-
+    sprite = chip_sprites.at(4);
+    draw_sprite( sprite, 50,50);
 }
 
 int game :: init_chip_sprites( void )
