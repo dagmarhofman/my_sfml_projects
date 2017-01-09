@@ -27,18 +27,12 @@ void game :: level_down(void)
 
 void game :: handle_key_event( int key )
 {
+
     if( key == 67 )
         level_up();
     if( key == 68)
         level_down();
-    if( key == 71 )
-        levels->player->set_player_direction( left );
-    if( key == 72 )
-        levels->player->set_player_direction( right );
-    if( key == 73 )
-        levels->player->set_player_direction( up );
-    if( key == 74 )
-        levels->player->set_player_direction( down );
 
+    levels->player->set_last_key_pressed(key);
 }
 

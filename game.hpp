@@ -31,6 +31,6 @@ class game
         sf::RenderWindow *window;
 
 	private:
-
+        int last_key_pressed;
 };
 

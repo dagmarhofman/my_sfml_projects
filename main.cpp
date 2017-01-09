@@ -42,7 +42,8 @@ int main()
 
         //lets watch the clock that is running on the background
         // calls player->draw_player
-        iosilver->levels->player->clock_lookup(iosilver->window);
+        iosilver->levels->player->sprite_motion_lookup(iosilver->window);
+        iosilver->levels->player->move_motion_lookup(iosilver->window);
 
         /* later issue, main gameplay here*/
         iosilver->levels->draw_map(iosilver->window);

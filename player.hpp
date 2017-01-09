@@ -18,10 +18,16 @@ class game_player
 
         sf::Sprite get_current_player_sprite( void );
         sf::Vector2f get_current_player_sprite_location();
+        void set_current_player_sprite_location( sf::Vector2f loc );
+
+
         void init_sprites_vector(void);
-        void clock_lookup( sf::RenderWindow *win );
+        void sprite_motion_lookup( sf::RenderWindow *win );
+        void move_motion_lookup( sf::RenderWindow *win );
+
         void draw_player(sf::RenderWindow *win );
         void set_player_direction( direction d );
+        void set_last_key_pressed( int key );
     private:
 
         //cell position
@@ -29,10 +35,7 @@ class game_player
         int y_pos;
 
         direction player_direction;
-        // horizontal cell offset
-        int h_off;
-        // vertical cell offset
-        int v_off;
+
 
         //er zijn 3 sprites in de sprite sheet als het poppetje loopt.
         //sprite_step, bepaalt welke van deze drie getekend moet worden.
@@ -47,6 +50,9 @@ class game_player
         //---
 
         sf::Texture *sprite_texture;
-        sf::Clock *player_clock;
+        sf::Clock *sprite_clock;
+        sf::Clock *move_clock;
         sf::Time elapsed_time;
+
+        int last_key_pressed;
 };
