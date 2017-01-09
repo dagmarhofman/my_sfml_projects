@@ -22,24 +22,22 @@ class game_player
 
 
         void init_sprites_vector(void);
-        void sprite_motion_lookup( sf::RenderWindow *win );
-        void move_motion_lookup( sf::RenderWindow *win );
 
         void draw_player(sf::RenderWindow *win );
         void set_player_direction( direction d );
-        void set_last_key_pressed( int key );
-    private:
+        direction get_player_direction( void );
 
-        //cell position
+        sf::Vector2i player_cell_position( void );
+
+        //this all shouldn't be public. wrap later
+        int sprite_step;
         int x_pos;
         int y_pos;
-
         direction player_direction;
 
+    private:
 
-        //er zijn 3 sprites in de sprite sheet als het poppetje loopt.
-        //sprite_step, bepaalt welke van deze drie getekend moet worden.
-        int sprite_step;
+
 
         sf::String player_file_name;
         std::vector<sf::Sprite> player_sprites;
@@ -50,9 +48,6 @@ class game_player
         //---
 
         sf::Texture *sprite_texture;
-        sf::Clock *sprite_clock;
-        sf::Clock *move_clock;
-        sf::Time elapsed_time;
 
-        int last_key_pressed;
+
 };

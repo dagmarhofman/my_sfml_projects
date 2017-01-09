@@ -11,9 +11,6 @@
 #include "player.hpp"
 
 const char* playerfile = "./sprites/player.png";
-// milliseconds for one player step
-const float sprite_velocity = 100;
-const float move_velocity = 2.5;
 
 void game_player :: init( void )
 {
@@ -24,77 +21,12 @@ void game_player :: init( void )
 
     set_player_file_name( sf::String(playerfile) );
     sprite_texture = new sf::Texture;
-    sprite_clock = new sf::Clock();
-    move_clock = new sf::Clock();
     player_sprites.reserve(25);
     init_sprites_vector();
     player_direction = up;
 
 
 }
-
-//klok word gecheckt in de main loop.
-void game_player :: sprite_motion_lookup( sf::RenderWindow *win )
-{
-        // tick functie van maken;
-        if( sprite_clock->getElapsedTime().asMilliseconds() > sprite_velocity ) {
-            //cycle de sprite
-            if( sprite_step >= 2)
-                sprite_step = 0;
-            else
-                sprite_step++;
-
-            sprite_clock->restart();
-            return;
-        }
-        draw_player(win);
-
-
-}
-//klok word gecheckt in de main loop.
-void game_player :: move_motion_lookup( sf::RenderWindow *win )
-{
-
-    int x_align;
-    int y_align;
-
-    sf::Vector2f p;
-
-    p = get_current_player_sprite_location();
-
-    x_align = (int)p.x % 60;
-    y_align = (int)p.y % 65;
-
-    sf::Vector2u winpos;
-
-    winpos = win->getSize();
-
-
-    if( last_key_pressed == 71  && y_align == 0 )
-        set_player_direction( left );
-    if( last_key_pressed == 72  && y_align == 0 )
-        set_player_direction( right );
-    if( last_key_pressed == 73  && x_align == 0 )
-        set_player_direction( up );
-    if( last_key_pressed == 74  && x_align == 0  )
-        set_player_direction( down );
-
-
-    if( move_clock->getElapsedTime().asMilliseconds() > move_velocity ) {
-            if( player_direction == up && y_pos > 0 )
-                y_pos--;
-            if( player_direction == down && y_pos < winpos.y - 65 )
-                y_pos++;
-            if( player_direction == left && x_pos > 0)
-                x_pos--;
-            if( player_direction == right && x_pos < winpos.x -60)
-                x_pos++;
-
-            move_clock->restart();
-        }
-        draw_player(win);
-}
-
 
 
 void game_player :: init_sprites_vector( void )
@@ -174,8 +106,17 @@ void game_player :: set_player_direction( direction d )
 {
     player_direction = d;
 }
-
-void game_player :: set_last_key_pressed( int key )
+direction game_player :: get_player_direction( void )
 {
-    last_key_pressed = key;
+    return player_direction;
 }
+
+sf::Vector2i game_player :: player_cell_position( void )
+{
+    int x;
+    int y;
+    x = x_pos / 60;
+    y = y_pos / 65;
+    return sf::Vector2i(x,y);
+}
+
