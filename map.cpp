@@ -25,6 +25,8 @@ const char* chipfile = "./sprites/chips.png";
 
 // add more sprites in later version.
 const int max_sprites = 6;
+const int start_level = 1;
+
 
 
 int game_map :: get_current_level ( void )
@@ -44,9 +46,12 @@ sf::Sprite game_map :: get_sprite_by_num (int num)
 //init everything at construction of object
 void game_map :: init()
 {
+    current_level = 0;
     chip_sprites.reserve(6);
     set_map_file_name( sf::String(levelfile) );
     set_chip_texture_file_name( sf::String(chipfile) );
+
+    player = new game_player();
 
     read_map_file();
 
@@ -137,6 +142,7 @@ bool game_map :: switch_level( int level_num )
     return flag;
 }
 
+//aparte init_texture maken???
 int game_map :: init_chip_sprites( void )
 {
 
@@ -157,4 +163,27 @@ int game_map :: init_chip_sprites( void )
 
     }
 
+}
+
+
+
+void game_map :: draw_map( sf::RenderWindow *win )
+{
+    sf::Sprite sprite;
+
+    int i,j;
+    int sprite_num;
+
+    for(i=0;i<13;i++) {
+        for(j=0;j<9;j++) {
+            sprite_num = get_sprite_ref(i,j);
+            if( sprite_num != -1 ) {
+                sprite = get_sprite_by_num(sprite_num);
+                sprite.setPosition(sf::Vector2f(i*60, j*65));
+                win->draw(sprite);
+            }
+        }
+    }
+
+    return;
 }

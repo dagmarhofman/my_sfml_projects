@@ -1,5 +1,4 @@
-
-const int start_level = 1;
+#include "player.hpp"
 
 class game_map
 {
@@ -31,6 +30,11 @@ class game_map
         sf::Sprite get_sprite_by_num(int num);
         int get_sprite_ref (int x, int y );
 
+        //draw routine.
+        void draw_map( sf::RenderWindow *win );
+
+        game_player *player;
+
     private:
 
         sf::String map_file_name;
@@ -42,4 +46,5 @@ class game_map
         sf::String map_file_buffer; //static?
         int current_level;
         int sprite_map_ref[13][9];
+
 };

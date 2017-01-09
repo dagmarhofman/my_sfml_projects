@@ -10,35 +10,6 @@
 #include "map.hpp"
 #include "game.hpp"
 
-void game :: draw_sprite( sf::Sprite sprite, float x, float y )
-{
-
-    sprite.setPosition(sf::Vector2f(x, y)); // absolute position
-
-    this->window->draw(sprite);
-
-    return;
-}
-
-void game :: draw_map( void )
-{
-    sf::Sprite sprite;
-
-    int i,j;
-    int sprite_num;
-
-    for(i=0;i<13;i++) {
-        for(j=0;j<9;j++) {
-            sprite_num = levels->get_sprite_ref(i,j);
-            if( sprite_num != -1 ) {
-                sprite = levels->get_sprite_by_num(sprite_num);
-                draw_sprite( sprite, i * 60, j * 65);
-            }
-        }
-    }
-
-    return;
-}
 
 void game :: level_up(void)
 {
@@ -60,5 +31,14 @@ void game :: handle_key_event( int key )
         level_up();
     if( key == 68)
         level_down();
+    if( key == 71 )
+        levels->player->set_player_direction( left );
+    if( key == 72 )
+        levels->player->set_player_direction( right );
+    if( key == 73 )
+        levels->player->set_player_direction( up );
+    if( key == 74 )
+        levels->player->set_player_direction( down );
+
 }
 

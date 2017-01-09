@@ -40,8 +40,12 @@ int main()
 
         iosilver->window->clear();
 
+        //lets watch the clock that is running on the background
+        // calls player->draw_player
+        iosilver->levels->player->clock_lookup(iosilver->window);
+
         /* later issue, main gameplay here*/
-        iosilver->draw_map();
+        iosilver->levels->draw_map(iosilver->window);
 
         iosilver->window->display();
     }
