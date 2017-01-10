@@ -13,31 +13,46 @@ class game_player
         };
 
         void init(void);
-        void set_player_file_name( sf::String arg);
-        void set_player_cell_position( int x, int y);
 
+        //set wrappers
+        void set_player_file_name( sf::String arg);
+        void set_player_direction( direction d );
+        void set_sprite_step( int step );
+        void set_current_player_sprite( sf::Sprite sprite );
+
+        void start_moving();
+        void start_pushing();
+        void stop_moving();
+        void stop_pushing();
+        bool is_moving();
+        bool is_pushing();
+
+
+        //get wrappers
+        int get_sprite_step( void );
+        direction get_player_direction( void );
         sf::Sprite get_current_player_sprite( void );
-        sf::Vector2f get_current_player_sprite_location();
-        void set_current_player_sprite_location( sf::Vector2f loc );
+        sf::Sprite get_player_sprite( int num );
 
 
         void init_sprites_vector(void);
 
         void draw_player(sf::RenderWindow *win );
-        void set_player_direction( direction d );
-        direction get_player_direction( void );
-
         sf::Vector2i player_cell_position( void );
 
-        //this all shouldn't be public. wrap later
-        int sprite_step;
-        int x_pos;
-        int y_pos;
-        direction player_direction;
 
     private:
 
+        bool moving;
+        bool pushing;
 
+        //this all shouldn't be public. wrap later
+        int sprite_step;
+        /*
+        int x_pos;
+        int y_pos;
+        */
+        direction player_direction;
 
         sf::String player_file_name;
         std::vector<sf::Sprite> player_sprites;

@@ -14,8 +14,8 @@ const char* playerfile = "./sprites/player.png";
 
 void game_player :: init( void )
 {
-    x_pos = 60;
-    y_pos = 65;
+
+    current_player_sprite.setPosition(sf::Vector2f(60,65));
 
     sprite_step = 1;
 
@@ -24,8 +24,8 @@ void game_player :: init( void )
     player_sprites.reserve(25);
     init_sprites_vector();
     player_direction = up;
-
-
+    start_moving();
+    stop_pushing();
 }
 
 
@@ -57,47 +57,25 @@ void game_player :: set_player_file_name( sf::String arg)
     player_file_name = arg;
 }
 
-void game_player :: set_player_cell_position( int x, int y)
-{
-    x_pos = x;
-    y_pos = y;
-}
 
 sf::Sprite game_player :: get_current_player_sprite( void )
 {
-    int sprite_at;
-
-    if( player_direction == up)
-        sprite_at = 0;
-    if( player_direction == down)
-        sprite_at = 5;
-    if( player_direction == left)
-        sprite_at = 10;
-    if( player_direction == right)
-        sprite_at = 15;
-
-    sprite_at += sprite_step;
-
-    return player_sprites.at(sprite_at);
-
+    return current_player_sprite;
 }
 
-sf::Vector2f game_player :: get_current_player_sprite_location( void )
+sf::Sprite game_player :: get_player_sprite( int num )
 {
-    return sf::Vector2f( x_pos, y_pos);
+    return player_sprites.at(num);
 }
 
-void game_player :: set_current_player_sprite_location ( sf::Vector2f loc )
-{
-    current_player_sprite_location = sf::Vector2f(x_pos,y_pos);
-}
+
 
 void game_player :: draw_player ( sf::RenderWindow *win )
 {
     sf::Sprite sprite;
 
     sprite = get_current_player_sprite();
-    sprite.setPosition(sf::Vector2f(x_pos, y_pos));
+
     win->draw(sprite);
 
 }
@@ -111,12 +89,50 @@ direction game_player :: get_player_direction( void )
     return player_direction;
 }
 
-sf::Vector2i game_player :: player_cell_position( void )
+void game_player :: set_current_player_sprite (sf::Sprite sprite )
 {
-    int x;
-    int y;
-    x = x_pos / 60;
-    y = y_pos / 65;
-    return sf::Vector2i(x,y);
+    current_player_sprite = sprite;
+    return;
+}
+
+/*
+    THIS ROUTINES SHOULD DO TYPECHECK
+*/
+
+void game_player :: set_sprite_step( int step )
+{
+    sprite_step = step;
+}
+
+int  game_player :: get_sprite_step( void )
+{
+    return sprite_step;
+}
+
+
+void game_player :: start_moving( void )
+{
+    moving = true;
+}
+void game_player :: stop_moving( void )
+{
+    moving = false;
+}
+void game_player :: start_pushing( void )
+{
+    pushing = true;
+}
+void game_player :: stop_pushing( void )
+{
+    pushing = false;
+}
+
+bool game_player :: is_pushing( void )
+{
+    return pushing;
+}
+bool game_player :: is_moving( void )
+{
+    return moving;
 }
 

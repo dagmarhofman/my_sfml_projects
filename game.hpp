@@ -36,6 +36,8 @@ class game
         void move_motion_lookup(void);
         void sprite_motion_lookup(void);
 
+        bool player_chip_collision(void);
+
 		//the game_map
 		game_map *levels;
 

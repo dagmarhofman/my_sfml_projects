@@ -30,11 +30,15 @@ class game_map
         sf::Sprite get_sprite_by_num(int num);
         int get_sprite_ref (int x, int y );
 
+        sf::Sprite get_xy_sprite( int x, int y );
+
         //draw routine.
         void draw_map( sf::RenderWindow *win );
+        void calc_map_sprites( void );
 
         game_player *player;
 
+        std::vector<sf::Sprite> mapped_chip_sprites;
     private:
 
         sf::String map_file_name;

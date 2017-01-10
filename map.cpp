@@ -20,8 +20,8 @@
 #include "map.hpp"
 
 //common filenames
-const char* levelfile = "./levels.dat";
-const char* chipfile = "./sprites/chips.png";
+const char* levelfile = "/home/digi/my_iosilver/levels.dat";
+const char* chipfile = "/home/digi/my_iosilver/sprites/chips.png";
 
 // add more sprites in later version.
 const int max_sprites = 6;
@@ -48,6 +48,7 @@ void game_map :: init()
 {
     current_level = 0;
     chip_sprites.reserve(6);
+    mapped_chip_sprites.reserve(108);
     set_map_file_name( sf::String(levelfile) );
     set_chip_texture_file_name( sf::String(chipfile) );
 
@@ -56,6 +57,7 @@ void game_map :: init()
     read_map_file();
 
     switch_level( start_level );
+
 
     //create SFML specific stuff
     chip_sprite_texture = new sf::Texture;
@@ -66,6 +68,8 @@ void game_map :: init()
     } catch ( std::exception& e) {
         std::cout << "could not init sprites " << e.what() << "\n";
     }
+
+    calc_map_sprites();
 
 }
 
@@ -165,8 +169,44 @@ int game_map :: init_chip_sprites( void )
 
 }
 
+sf::Sprite game_map :: get_xy_sprite( int x, int y)
+{
+    sf::Sprite sprite;
+
+    int i,j;
+    int sprite_num;
+
+    sprite_num = get_sprite_ref(x,y);
+    if( sprite_num != -1 ) {
+        sprite = get_sprite_by_num(sprite_num);
+        sprite.setPosition(sf::Vector2f(x*60, x*65));
+        return sprite;
+    }
+
+    return sprite;
+}
 
 
+void game_map :: calc_map_sprites( void )
+{
+    sf::Sprite sprite;
+
+    int i,j;
+    int sprite_num;
+
+    for(i=0;i<13;i++) {
+        for(j=0;j<9;j++) {
+            sprite_num = get_sprite_ref(i,j);
+            if( sprite_num != -1 ) {
+                sprite = get_sprite_by_num(sprite_num);
+                sprite.setPosition(sf::Vector2f(i*60, j*65));
+                mapped_chip_sprites.push_back(sprite);
+            }
+        }
+    }
+
+    return;
+}
 void game_map :: draw_map( sf::RenderWindow *win )
 {
     sf::Sprite sprite;
