@@ -5,6 +5,8 @@ class game_map
     public:
 
         game_map() {
+            player = new game_player();
+
             this->init();
         };
         ~game_map() {
@@ -35,11 +37,11 @@ class game_map
         //draw routine.
         void draw_map( sf::RenderWindow *win );
         void calc_map_sprites( void );
-
         game_player *player;
 
         std::vector<sf::Sprite> mapped_chip_sprites;
     private:
+
 
         sf::String map_file_name;
         sf::String chip_texture_file_name;

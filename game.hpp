@@ -1,9 +1,4 @@
-
-const int window_x_size = 795;
-const int window_y_size = 585;
-
-const int amount_of_levels = 3;
-
+#include "map.hpp"
 class game
 {
 	public:
@@ -13,6 +8,7 @@ class game
             window = new sf::RenderWindow(sf::VideoMode(window_x_size, window_y_size), "IO Silver");
             sprite_clock = new sf::Clock();
             move_clock = new sf::Clock();
+            push_clock = new sf::Clock();
 
         };
         ~game() {
@@ -20,6 +16,7 @@ class game
             delete window;
             delete sprite_clock;
             delete move_clock;
+            delete push_clock;
         };
 
 		//draw routines
@@ -33,10 +30,12 @@ class game
         //do all motion lookups
         void motion_lookups( void );
 
+        void push_motion_lookup(void);
         void move_motion_lookup(void);
         void sprite_motion_lookup(void);
 
         bool player_chip_collision(void);
+        bool is_push_possible();
 
 		//the game_map
 		game_map *levels;
@@ -45,6 +44,7 @@ class game
         sf::RenderWindow *window;
         sf::Clock *sprite_clock;
         sf::Clock *move_clock;
+        sf::Clock *push_clock;
 
 	private:
         int last_key_pressed;

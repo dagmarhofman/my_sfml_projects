@@ -15,7 +15,7 @@ const char* playerfile = "./sprites/player.png";
 void game_player :: init( void )
 {
 
-    current_player_sprite.setPosition(sf::Vector2f(60,65));
+    current_player_sprite.setPosition(sf::Vector2f(icon_size_x,icon_size_y));
 
     sprite_step = 1;
 
@@ -44,7 +44,7 @@ void game_player :: init_sprites_vector( void )
     for(i=0;i < 5 ;i++) {
         for(j=0;j < 5 ;j++) {
             sprite.setTexture(*sprite_texture );
-            sprite.setTextureRect(sf::IntRect(60 * j, 65 *i, 60, 65));
+            sprite.setTextureRect(sf::IntRect(icon_size_x * j, icon_size_y *i, icon_size_x, icon_size_y));
 
             player_sprites.push_back(sprite);
 
@@ -56,7 +56,6 @@ void game_player :: set_player_file_name( sf::String arg)
 {
     player_file_name = arg;
 }
-
 
 sf::Sprite game_player :: get_current_player_sprite( void )
 {

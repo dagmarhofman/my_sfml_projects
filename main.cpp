@@ -17,7 +17,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
-#include "map.hpp"
 #include "game.hpp"
 
 int main()

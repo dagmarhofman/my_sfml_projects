@@ -1,6 +1,4 @@
-
-enum direction { up, down, left, right };
-
+#include "globals.hpp"
 class game_player
 {
     public:
@@ -38,7 +36,6 @@ class game_player
         void init_sprites_vector(void);
 
         void draw_player(sf::RenderWindow *win );
-        sf::Vector2i player_cell_position( void );
 
 
     private:

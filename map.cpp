@@ -18,16 +18,11 @@
 #include <SFML/Graphics/Rect.hpp>
 
 #include "map.hpp"
-
 //common filenames
+
+
 const char* levelfile = "./levels.dat";
 const char* chipfile = "./sprites/chips.png";
-
-// add more sprites in later version.
-const int max_sprites = 6;
-const int start_level = 1;
-
-
 
 int game_map :: get_current_level ( void )
 {
@@ -51,8 +46,6 @@ void game_map :: init()
     mapped_chip_sprites.reserve(80);
     set_map_file_name( sf::String(levelfile) );
     set_chip_texture_file_name( sf::String(chipfile) );
-
-    player = new game_player();
 
     read_map_file();
 
@@ -162,14 +155,14 @@ int game_map :: init_chip_sprites( void )
 
     for(i=0;i < max_sprites ;i++) {
         sprite.setTexture(*chip_sprite_texture);
-        sprite.setTextureRect(sf::IntRect(60 * i, 0, 60, 70));
+        sprite.setTextureRect(sf::IntRect(icon_size_x * i, 0, icon_size_x, icon_size_y ));
 
         chip_sprites.push_back(sprite);
 
     }
 
 }
-
+//deze routine testen!
 sf::Sprite game_map :: get_xy_sprite( int x, int y)
 {
     sf::Sprite sprite;
@@ -180,7 +173,7 @@ sf::Sprite game_map :: get_xy_sprite( int x, int y)
     sprite_num = get_sprite_ref(x,y);
     if( sprite_num != -1 ) {
         sprite = get_sprite_by_num(sprite_num);
-        sprite.setPosition(sf::Vector2f(x*60, x*65));
+        sprite.setPosition(sf::Vector2f(x*icon_size_x, y*icon_size_y));
         return sprite;
     }
 
@@ -200,7 +193,7 @@ void game_map :: calc_map_sprites( void )
             sprite_num = get_sprite_ref(i,j);
             if( sprite_num != -1 ) {
                 sprite = get_sprite_by_num(sprite_num);
-                sprite.setPosition(sf::Vector2f(i*60, j*65));
+                sprite.setPosition(sf::Vector2f(i*icon_size_x, j*icon_size_y));
                 mapped_chip_sprites.push_back(sprite);
             }
         }
@@ -220,7 +213,7 @@ void game_map :: draw_map( sf::RenderWindow *win )
             sprite_num = get_sprite_ref(i,j);
             if( sprite_num != -1 ) {
                 sprite = get_sprite_by_num(sprite_num);
-                sprite.setPosition(sf::Vector2f(i*60, j*65));
+                sprite.setPosition(sf::Vector2f(i*icon_size_x, j*icon_size_y));
                 win->draw(sprite);
             }
         }
