@@ -21,7 +21,7 @@ void game_player :: init( void )
 
     set_player_file_name( sf::String(playerfile) );
     sprite_texture = new sf::Texture;
-    player_sprites.reserve(25);
+    player_sprites.reserve(26);
     init_sprites_vector();
     player_direction = up;
     start_moving();

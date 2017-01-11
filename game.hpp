@@ -2,7 +2,7 @@
 const int window_x_size = 795;
 const int window_y_size = 585;
 
-const int amount_of_levels = 4;
+const int amount_of_levels = 3;
 
 class game
 {

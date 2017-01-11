@@ -20,8 +20,8 @@
 #include "map.hpp"
 
 //common filenames
-const char* levelfile = "/home/digi/my_iosilver/levels.dat";
-const char* chipfile = "/home/digi/my_iosilver/sprites/chips.png";
+const char* levelfile = "./levels.dat";
+const char* chipfile = "./sprites/chips.png";
 
 // add more sprites in later version.
 const int max_sprites = 6;
@@ -48,7 +48,7 @@ void game_map :: init()
 {
     current_level = 0;
     chip_sprites.reserve(6);
-    mapped_chip_sprites.reserve(108);
+    mapped_chip_sprites.reserve(80);
     set_map_file_name( sf::String(levelfile) );
     set_chip_texture_file_name( sf::String(chipfile) );
 
@@ -57,6 +57,7 @@ void game_map :: init()
     read_map_file();
 
     switch_level( start_level );
+
 
 
     //create SFML specific stuff

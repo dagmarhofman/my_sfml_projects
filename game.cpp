@@ -137,6 +137,9 @@ void game :: sprite_motion_lookup( void )
 {
     int sprite_at;
     sf::Sprite sprite;
+
+    int cycle_sprite = 0;
+
     // tick functie van maken;
     if( sprite_clock->getElapsedTime().asMilliseconds() > sprite_velocity ) {
 
@@ -150,6 +153,15 @@ void game :: sprite_motion_lookup( void )
         if( levels->player->get_player_direction() == right)
             sprite_at = 15;
 
+
+        cycle_sprite = levels->player->get_sprite_step();
+
+        cycle_sprite++;
+
+        if(cycle_sprite > 2)
+            cycle_sprite = 0;
+
+        levels->player->set_sprite_step(cycle_sprite);
 
 
         if( !levels->player->is_moving() )
