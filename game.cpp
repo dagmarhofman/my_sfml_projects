@@ -302,26 +302,72 @@ bool game :: is_push_possible( void )
     return true;
 }
 
+void game :: animate_shot( void )
+{
+
+
+    sf::Sprite anim_sprite;
+    int anim_sprite_num;
+
+    sf::Vector2f anim_traject;
+
+    sf::Vector2f player_pos;
+    int player_cell_x;
+    int player_cell_y;
+
+    player_pos = levels->player->get_current_player_sprite().getPosition();
+
+    /* deze moet via een wrapper!*/
+    player_cell_x = (int) player_pos.x/icon_size_x;
+    player_cell_y = (int) player_pos.y/icon_size_y;
+
+    //traject endpoints
+    int x_end = 0;
+    int y_end = 0;
+
+    if( levels->player->get_player_direction()  == down ) {
+        anim_sprite_num =  levels->get_sprite_ref(player_cell_x, player_cell_y + 1);
+        anim_sprite = levels->get_sprite_by_num(anim_sprite_num);
+        anim_traject = sf::Vector2f (player_pos.x, player_pos.y + 2 * icon_size_y);
+        anim_sprite.setPosition( anim_traject );
+        window->draw(anim_sprite);
+    //sf::sleep(sf::milliseconds(500));
+    }
+    if( levels->player->get_player_direction()  == up ) {
+        anim_sprite_num =  levels->get_sprite_ref(player_cell_x, player_cell_y - 1);
+        anim_sprite = levels->get_sprite_by_num(anim_sprite_num);
+        anim_traject = sf::Vector2f (player_pos.x, player_pos.y - 2 * icon_size_y);
+        anim_sprite.setPosition( anim_traject );
+        window->draw(anim_sprite);
+    //sf::sleep(sf::milliseconds(500));
+    }
+    if( levels->player->get_player_direction()  == left ) {
+        anim_sprite_num =  levels->get_sprite_ref(player_cell_x -1, player_cell_y );
+        anim_sprite = levels->get_sprite_by_num(anim_sprite_num);
+        anim_traject = sf::Vector2f (player_pos.x - 2 * icon_size_x, player_pos.y );
+        anim_sprite.setPosition( anim_traject );
+        window->draw(anim_sprite);
+    //sf::sleep(sf::milliseconds(500));
+
+    }
+    if( levels->player->get_player_direction()  == right ) {
+        anim_sprite_num =  levels->get_sprite_ref(player_cell_x + 1, player_cell_y );
+        anim_sprite = levels->get_sprite_by_num(anim_sprite_num);
+        anim_traject = sf::Vector2f (player_pos.x + 2 * icon_size_x,  player_pos.y );
+        anim_sprite.setPosition( anim_traject );
+        window->draw(anim_sprite);
+    //sf::sleep(sf::milliseconds(500));
+    }
+
+
+
+    //levels->player->stop_pushing();
+}
+
 void game :: push_motion_lookup( void )
 {
     int sprite_at;
     sf::Sprite sprite;
-
-
-    if( levels->player->is_pushing() && is_push_possible() ) {
-        //do_push
-
-        std::cout << "SHOT!!!" << levels->player->get_current_player_sprite().getPosition().x << " "<< levels->player->get_current_player_sprite().getPosition().y << "\n";
-        levels->player->stop_pushing();
-        return;
-
-    }
-
-    if( levels->player->is_pushing() && !is_push_possible()) {
-        std::cout << "BLOCKED!!!" << levels->player->get_current_player_sprite().getPosition().x << " "<< levels->player->get_current_player_sprite().getPosition().y << "\n";
-        levels->player->stop_pushing();
-        return;
-    }
 
 
     if( levels->player->is_pushing()) {
@@ -341,6 +387,25 @@ void game :: push_motion_lookup( void )
         levels->player->set_current_player_sprite(sprite);
         levels->player->draw_player(window);
     }
+
+
+
+    if( levels->player->is_pushing() && is_push_possible() ) {
+        //do_push
+
+        //std::cout << "SHOT!!!" << levels->player->get_current_player_sprite().getPosition().x << " "<< levels->player->get_current_player_sprite().getPosition().y << "\n";
+   //     levels->player->stop_pushing();
+        animate_shot();
+        //return;
+
+    }
+
+    if( levels->player->is_pushing() && !is_push_possible()) {
+        std::cout << "BLOCKED!!!" << levels->player->get_current_player_sprite().getPosition().x << " "<< levels->player->get_current_player_sprite().getPosition().y << "\n";
+     //   levels->player->stop_pushing();
+        //return;
+    }
+
 
     if( push_clock->getElapsedTime().asMilliseconds() > push_velocity  ) {
         levels->player->stop_pushing();
